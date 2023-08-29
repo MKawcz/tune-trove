@@ -114,12 +114,15 @@ public class UserMapper implements Mapper<User, UserDto, UserResponse> {
             Image profileImage = imageMapper.toEntityFromResponse(firstImageResponse);
             Image existingImage = user.getProfileImage();
 
-            user.setProfileImage(profileImage);
-            if (existingImage != null) {
-                existingImage.setUser(null);
-                imageRepository.delete(existingImage);
+            if(!profileImage.equals(existingImage) && existingImage != null) {
+                existingImage.setHeight(profileImage.getHeight());
+                existingImage.setWidth(profileImage.getWidth());
+                existingImage.setUrl(profileImage.getUrl());
+                imageRepository.save(existingImage);
+            } else if(existingImage == null) {
+                user.setProfileImage(profileImage);
+                profileImage.setUser(user);
             }
-            profileImage.setUser(user);
         } else {
             user.setProfileImage(null);
         }
@@ -130,10 +133,14 @@ public class UserMapper implements Mapper<User, UserDto, UserResponse> {
             Image profileImage = imageMapper.toEntityFromDto(dto.getProfileImage());
             Image existingImage = user.getProfileImage();
 
-            user.setProfileImage(profileImage);
-            if (existingImage != null) {
-                existingImage.setUser(null);
-                imageRepository.delete(existingImage);
+            if(!profileImage.equals(existingImage) && existingImage != null) {
+                existingImage.setHeight(profileImage.getHeight());
+                existingImage.setWidth(profileImage.getWidth());
+                existingImage.setUrl(profileImage.getUrl());
+                imageRepository.save(existingImage);
+            } else if(existingImage == null) {
+                user.setProfileImage(profileImage);
+                profileImage.setUser(user);
             }
             profileImage.setUser(user);
         } else {
