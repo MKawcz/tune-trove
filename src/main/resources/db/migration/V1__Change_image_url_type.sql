@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS image
+ALTER COLUMN url TYPE text;
