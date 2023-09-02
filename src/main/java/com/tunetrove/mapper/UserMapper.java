@@ -112,17 +112,7 @@ public class UserMapper implements Mapper<User, UserDto, UserResponse> {
         if (images != null && !images.isEmpty()) {
             ImageResponse firstImageResponse = images.get(0);
             Image profileImage = imageMapper.toEntityFromResponse(firstImageResponse);
-            Image existingImage = user.getProfileImage();
-
-            if(!profileImage.equals(existingImage) && existingImage != null) {
-                existingImage.setHeight(profileImage.getHeight());
-                existingImage.setWidth(profileImage.getWidth());
-                existingImage.setUrl(profileImage.getUrl());
-                imageRepository.save(existingImage);
-            } else if(existingImage == null) {
-                user.setProfileImage(profileImage);
-                profileImage.setUser(user);
-            }
+            setProfileImage(user, profileImage);
         } else {
             user.setProfileImage(null);
         }
@@ -131,20 +121,24 @@ public class UserMapper implements Mapper<User, UserDto, UserResponse> {
     private void setProfileImageFromDto(User user, UserDto dto) {
         if(dto.getProfileImage() != null) {
             Image profileImage = imageMapper.toEntityFromDto(dto.getProfileImage());
-            Image existingImage = user.getProfileImage();
-
-            if(!profileImage.equals(existingImage) && existingImage != null) {
-                existingImage.setHeight(profileImage.getHeight());
-                existingImage.setWidth(profileImage.getWidth());
-                existingImage.setUrl(profileImage.getUrl());
-                imageRepository.save(existingImage);
-            } else if(existingImage == null) {
-                user.setProfileImage(profileImage);
-                profileImage.setUser(user);
-            }
+            setProfileImage(user, profileImage);
             profileImage.setUser(user);
         } else {
             user.setProfileImage(null); // Jeśli DTO nie ma obrazu, usuń obraz z użytkownika
+        }
+    }
+
+    private void setProfileImage(User user, Image profileImage) {
+        Image existingImage = user.getProfileImage();
+
+        if(!profileImage.equals(existingImage) && existingImage != null) {
+            existingImage.setHeight(profileImage.getHeight());
+            existingImage.setWidth(profileImage.getWidth());
+            existingImage.setUrl(profileImage.getUrl());
+            imageRepository.save(existingImage);
+        } else if(existingImage == null) {
+            user.setProfileImage(profileImage);
+            profileImage.setUser(user);
         }
     }
 

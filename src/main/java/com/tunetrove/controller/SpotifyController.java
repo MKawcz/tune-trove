@@ -33,21 +33,6 @@ public class SpotifyController {
     private final SpotifyService spotifyService;
     private final TokenService tokenService;
 
-    @GetMapping("/userinfo")
-    public Map<String, Object> getUserInfo(
-            @RegisteredOAuth2AuthorizedClient("spotify") OAuth2AuthorizedClient authorizedClient,
-            @AuthenticationPrincipal OAuth2User oauth2User) {
-
-        // Pobierz atrybuty użytkownika z obiektu OAuth2User
-        Map<String, Object> userAttributes = oauth2User.getAttributes();
-
-        // Możesz również uzyskać dostęp do tokena dostępu i innych informacji z obiektu OAuth2AuthorizedClient
-        String accessToken = authorizedClient.getAccessToken().getTokenValue();
-
-        // W tym przykładzie zwracamy tylko atrybuty użytkownika
-        return Collections.singletonMap("userAttributes", userAttributes);
-    }
-
     @GetMapping("/albums/{id}")
     public ResponseEntity<AlbumDto> getAlbum(@PathVariable String id) {
         String accessToken = tokenService.getAccessToken();

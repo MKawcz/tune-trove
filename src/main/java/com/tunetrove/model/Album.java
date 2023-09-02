@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = true)
 public class Album extends Reviewable {
     private String spotifyId;
     private String name;

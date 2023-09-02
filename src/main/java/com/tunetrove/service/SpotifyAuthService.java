@@ -46,4 +46,3 @@ public class SpotifyAuthService {
     }
 
 }
-//TODO dodaj userResponse i pole z tym związane, zwłaszcza profile image, dodaj endpoint do SpotifyController i stwórz kontroler dla user
