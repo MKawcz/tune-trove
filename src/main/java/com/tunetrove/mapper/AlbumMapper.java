@@ -6,7 +6,7 @@ import com.tunetrove.response.AlbumResponse;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AlbumMapper implements Mapper<Album, AlbumDto, AlbumResponse> {
+public class AlbumMapper implements Mapper<Album, AlbumDto> {
     @Override
     public Album toEntityFromDto(AlbumDto dto) {
         Album album = new Album();
@@ -17,17 +17,9 @@ public class AlbumMapper implements Mapper<Album, AlbumDto, AlbumResponse> {
     }
 
     @Override
-    public Album toEntityFromResponse(AlbumResponse response) {
-        return null;
-    }
-
-    @Override
     public AlbumDto toDtoFromEntity(Album album) {
         return null;
     }
 
-    @Override
-    public AlbumDto toDtoFromResponse(AlbumResponse response) {
-        return null;
-    }
+
 }

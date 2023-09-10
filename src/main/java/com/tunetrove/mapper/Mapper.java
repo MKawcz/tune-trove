@@ -1,12 +1,9 @@
 package com.tunetrove.mapper;
 
-public interface Mapper<ENTITY, DTO, RESPONSE> {
+public interface Mapper<ENTITY, DTO> {
     ENTITY toEntityFromDto(DTO dto);
-
-    ENTITY toEntityFromResponse(RESPONSE response);
 
     DTO toDtoFromEntity(ENTITY entity);
 
-    DTO toDtoFromResponse(RESPONSE response);
 
 }

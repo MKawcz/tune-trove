@@ -1,8 +1,7 @@
 package com.tunetrove.controller;
 
 import com.tunetrove.dto.UserDto;
-import com.tunetrove.response.UserResponse;
-import com.tunetrove.service.SpotifyAuthService;
+import com.tunetrove.mapper.UserMapper;
 import com.tunetrove.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,21 +10,18 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final SpotifyAuthService spotifyAuthService;
     private final UserService userService;
 
     @GetMapping("/current")
     public ResponseEntity<UserDto> getCurrentUser(@AuthenticationPrincipal OAuth2User oauth2User) {
-        UserResponse userResponse = spotifyAuthService.mapToUserResponse(oauth2User);
-        UserDto userDto = spotifyAuthService.createUserOrFetchExisting(userResponse);
-        return ResponseEntity.ok(userDto);
+        UserDto currentUser = userService.createUserOrFetchExisting(oauth2User);
+        return ResponseEntity.ok(currentUser);
     }
 
     @GetMapping("/{id}")
@@ -41,12 +37,13 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
-        UserDto updatedUserDto = userService.updateUser(id, userDto);
+        UserDto updatedUserDto = userService.updateUserFromDto(id, userDto);
         return ResponseEntity.ok(updatedUserDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
         return ResponseEntity.ok("User of id: " + id + " has been deleted");
     }
 }
