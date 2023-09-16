@@ -2,7 +2,6 @@ package com.tunetrove.mapper;
 
 import com.tunetrove.dto.AlbumDto;
 import com.tunetrove.model.Album;
-import com.tunetrove.response.AlbumResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,6 +19,5 @@ public class AlbumMapper implements Mapper<Album, AlbumDto> {
     public AlbumDto toDtoFromEntity(Album album) {
         return null;
     }
-
 
 }

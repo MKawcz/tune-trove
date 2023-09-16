@@ -18,6 +18,6 @@ public class Artist {
     private List<Album> albums;
     @ManyToMany(mappedBy = "artists", fetch = FetchType.LAZY)
     private List<Song> songs;
-    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
-    private List<Image> images = new ArrayList<>();
+    @OneToOne(mappedBy = "artist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Image artistImage;
 }

@@ -3,7 +3,11 @@ package com.tunetrove.mapper;
 import com.tunetrove.dto.ImageDto;
 import com.tunetrove.model.Image;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -27,5 +31,4 @@ public class ImageMapper implements Mapper<Image, ImageDto> {
         dto.setHeight(image.getHeight());
         return dto;
     }
-
 }

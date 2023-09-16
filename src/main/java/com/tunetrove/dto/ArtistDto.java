@@ -1,5 +1,6 @@
 package com.tunetrove.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -7,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArtistDto {
-    @JsonProperty("id")
     private Long idArtist;
+    @JsonProperty("id")
     private String spotifyId;
     @JsonProperty("display_name")
     private String name;

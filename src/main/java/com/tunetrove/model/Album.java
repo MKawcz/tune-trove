@@ -23,6 +23,6 @@ public class Album extends Reviewable {
     private List<Artist> artists;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "album")
     private List<Song> songs;
-    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
-    private List<Image> images = new ArrayList<>();
+    @OneToOne(mappedBy = "album", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Image albumCover;
 }

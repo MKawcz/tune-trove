@@ -22,7 +22,4 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Image profileImage;
 
-    public boolean hasSameProfileImage(Image profileImage) {
-        return this.getProfileImage().equals(profileImage);
-    }
 }

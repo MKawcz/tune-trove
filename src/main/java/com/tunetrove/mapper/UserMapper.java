@@ -18,7 +18,6 @@ public class UserMapper implements Mapper<User, UserDto> {
         user.setSpotifyId(dto.getSpotifyId());
         user.setUsername(dto.getUsername());
         user.setEmailAddress(dto.getEmailAddress());
-//        imageService.setUserProfileImageFromDto(user, dto);
         return user;
     }
 
@@ -29,7 +28,6 @@ public class UserMapper implements Mapper<User, UserDto> {
         dto.setSpotifyId(user.getSpotifyId());
         dto.setUsername(user.getUsername());
         dto.setEmailAddress(user.getEmailAddress());
-
         if (user.getProfileImage() != null) {
             dto.setProfileImage(imageMapper.toDtoFromEntity(user.getProfileImage()));
         }
@@ -37,14 +35,14 @@ public class UserMapper implements Mapper<User, UserDto> {
     }
 
     public UserDto toDtoFromApiResponse(OAuth2User oauth2User) {
-        UserDto userDto = new UserDto();
+        UserDto dto = new UserDto();
 
-        userDto.setSpotifyId(oauth2User.getAttribute("id"));
-        userDto.setUsername(oauth2User.getAttribute("display_name"));
-        userDto.setEmailAddress(oauth2User.getAttribute("email"));
-        userDto.setExternalUrls(oauth2User.getAttribute("external_urls"));
+        dto.setSpotifyId(oauth2User.getAttribute("id"));
+        dto.setUsername(oauth2User.getAttribute("display_name"));
+        dto.setEmailAddress(oauth2User.getAttribute("email"));
+        dto.setExternalUrls(oauth2User.getAttribute("external_urls"));
 
-        return userDto;
+        return dto;
     }
 
 }

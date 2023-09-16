@@ -25,6 +25,6 @@ public class Song extends Reviewable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_album")
     private Album album;
-    @OneToMany(mappedBy = "song", cascade = CascadeType.ALL)
-    private List<Image> images = new ArrayList<>();
+    @OneToOne(mappedBy = "song", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Image songCover;
 }

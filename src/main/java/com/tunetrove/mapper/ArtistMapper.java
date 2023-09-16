@@ -1,16 +1,12 @@
 package com.tunetrove.mapper;
 
 import com.tunetrove.dto.ArtistDto;
-import com.tunetrove.dto.ImageDto;
 import com.tunetrove.model.Artist;
-import com.tunetrove.model.Image;
-import com.tunetrove.response.ArtistResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -23,19 +19,19 @@ public class ArtistMapper implements Mapper<Artist, ArtistDto> {
         Artist artist = new Artist();
         artist.setSpotifyId(dto.getSpotifyId());
         artist.setName(dto.getName());
-        List<ImageDto> imageDtos = dto.getImages();
-
         return artist;
     }
 
-    //prawdopodobnie najlepiej będzie przypisywać
-    // pola z relacjami w serwisie a tu tylko te bez relacji
-    // ewentualnie tylko pole image
-
-
     @Override
     public ArtistDto toDtoFromEntity(Artist artist) {
-        return null;
+        ArtistDto dto = new ArtistDto();
+        dto.setSpotifyId(artist.getSpotifyId());
+        dto.setName(artist.getName());
+
+        if (artist.getArtistImage() != null) {
+            dto.setImages(List.of(imageMapper.toDtoFromEntity(artist.getArtistImage())));
+        }
+        return dto;
     }
-    
+
 }
