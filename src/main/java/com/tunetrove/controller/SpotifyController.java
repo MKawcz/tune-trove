@@ -21,6 +21,13 @@ public class SpotifyController {
     private final SpotifyService spotifyService;
     private final TokenService tokenService;
 
+//    @GetMapping("/token")
+//    public ResponseEntity<String> getArtist() {
+//        String accessToken = tokenService.getAccessToken();
+//
+//        return ResponseEntity.ok(accessToken);
+//    }
+
 //    @GetMapping("/albums/{id}")
 //    public ResponseEntity<AlbumDto> getAlbum(@PathVariable String id) {
 //        String accessToken = tokenService.getAccessToken();

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TokenService {
-
     private final OAuth2AuthorizedClientService authorizedClientService;
 
     public String getAccessToken() {

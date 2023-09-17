@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Data
-public class User {
+public class User implements EntityWithImage{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser;
@@ -20,6 +20,6 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Rating> ratings;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Image profileImage;
+    private Image image;
 
 }

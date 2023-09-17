@@ -1,7 +1,6 @@
 package com.tunetrove.controller;
 
 import com.tunetrove.dto.UserDto;
-import com.tunetrove.mapper.UserMapper;
 import com.tunetrove.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +14,16 @@ import java.util.List;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
-
     private final UserService userService;
 
     @GetMapping("/current")
     public ResponseEntity<UserDto> getCurrentUser(@AuthenticationPrincipal OAuth2User oauth2User) {
-        UserDto currentUser = userService.createUserOrFetchExisting(oauth2User);
-        return ResponseEntity.ok(currentUser);
+        return ResponseEntity.ok(userService.createOrUpdateUser(oauth2User));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-        UserDto userDto = userService.getUserById(id);
-        return ResponseEntity.ok(userDto);
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @GetMapping
@@ -37,8 +33,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
-        UserDto updatedUserDto = userService.updateUserFromDto(id, userDto);
-        return ResponseEntity.ok(updatedUserDto);
+        return ResponseEntity.ok(userService.updateUserFromDto(id, userDto));
     }
 
     @DeleteMapping("/{id}")

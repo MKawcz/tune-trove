@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Artist {
+public class Artist implements EntityWithImage{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idArtist;
@@ -19,5 +19,5 @@ public class Artist {
     @ManyToMany(mappedBy = "artists", fetch = FetchType.LAZY)
     private List<Song> songs;
     @OneToOne(mappedBy = "artist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Image artistImage;
+    private Image image;
 }

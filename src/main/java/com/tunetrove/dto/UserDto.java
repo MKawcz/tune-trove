@@ -15,5 +15,5 @@ public class UserDto {
     private String emailAddress;
     @JsonProperty("external_urls")
     private Map<String, String> externalUrls;
-    private ImageDto profileImage;
+    private ImageDto image;
 }

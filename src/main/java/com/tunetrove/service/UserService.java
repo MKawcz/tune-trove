@@ -18,6 +18,40 @@ public class UserService {
     private final UserMapper userMapper;
     private final ImageService imageService;
 
+    public UserDto createOrUpdateUser(OAuth2User oauth2User) {
+        UserDto spotifyUserData = userMapper.toDtoFromApiResponse(oauth2User);
+        imageService.setUserImageFromApiResponse(spotifyUserData, oauth2User);
+
+        User existingUser = userRepository.findBySpotifyId(spotifyUserData.getSpotifyId())
+                .orElse(null);
+
+        if(existingUser == null) {
+            User newUser = createUserFromDto(spotifyUserData);
+            return userMapper.toDtoFromEntity(newUser);
+        } else {
+            return updateUserFromDto(existingUser.getIdUser(), spotifyUserData);
+        }
+    }
+
+    public UserDto updateUserFromDto(long id, UserDto updatedUserDto) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        // Aktualizacja danych użytkownika
+        existingUser.setEmailAddress(updatedUserDto.getEmailAddress());
+        existingUser.setUsername(updatedUserDto.getUsername());
+        existingUser.setSpotifyId(updatedUserDto.getSpotifyId());
+
+        // Aktualizacja obrazka profilowego
+        imageService.setUserImageFromDto(existingUser, updatedUserDto);
+
+        // Zapisz zaktualizowanego użytkownika w bazie danych.
+        User savedUser = userRepository.save(existingUser);
+
+        // Zwróć zaktualizowanego użytkownika w formie UserDto.
+        return userMapper.toDtoFromEntity(savedUser);
+    }
+
     public UserDto getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
@@ -30,51 +64,15 @@ public class UserService {
                 .map(userMapper::toDtoFromEntity).toList();
     }
 
-    public UserDto updateUserFromDto(long id, UserDto updatedUserDto) {
-        User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
-
-        // Aktualizacja danych użytkownika
-        updateUserData(existingUser, updatedUserDto);
-
-        // Aktualizacja obrazka profilowego
-        imageService.setUserProfileImageFromDto(existingUser, updatedUserDto);
-
-        // Zapisz zaktualizowanego użytkownika w bazie danych.
-        User savedUser = userRepository.save(existingUser);
-
-        // Zwróć zaktualizowanego użytkownika w formie UserDto.
-        return userMapper.toDtoFromEntity(savedUser);
-    }
-
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
         userRepository.delete(user);
     }
 
-    public UserDto createUserOrFetchExisting(OAuth2User oauth2User) {
-        UserDto spotifyUserData = userMapper.toDtoFromApiResponse(oauth2User);
-        imageService.setUserProfileImageFromApiResponse(spotifyUserData, oauth2User);
-
-        String spotifyUserId = spotifyUserData.getSpotifyId();
-
-        User user = userRepository.findBySpotifyId(spotifyUserId)
-                .orElseGet(() -> createUserFromDto(spotifyUserData));
-
-        return updateUserFromDto(user.getIdUser(), spotifyUserData);
-    }
-
     private User createUserFromDto(UserDto userDto) {
-        User newUser = new User();
-        newUser.setSpotifyId(userDto.getSpotifyId());
+        User newUser = userMapper.toEntityFromDto(userDto);
         return userRepository.save(newUser);
-    }
-
-    private void updateUserData(User user, UserDto updatedUserDto) {
-        // Tutaj umieść kod do aktualizacji danych użytkownika, np. email i nazwy użytkownika.
-        user.setEmailAddress(updatedUserDto.getEmailAddress());
-        user.setUsername(updatedUserDto.getUsername());
     }
 
 }

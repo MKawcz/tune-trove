@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Song extends Reviewable {
+public class Song extends Reviewable implements EntityWithImage{
     private String spotifyId;
     private String name;
     private Duration duration;
@@ -26,5 +26,5 @@ public class Song extends Reviewable {
     @JoinColumn(name="id_album")
     private Album album;
     @OneToOne(mappedBy = "song", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Image songCover;
+    private Image image;
 }

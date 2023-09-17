@@ -28,8 +28,8 @@ public class UserMapper implements Mapper<User, UserDto> {
         dto.setSpotifyId(user.getSpotifyId());
         dto.setUsername(user.getUsername());
         dto.setEmailAddress(user.getEmailAddress());
-        if (user.getProfileImage() != null) {
-            dto.setProfileImage(imageMapper.toDtoFromEntity(user.getProfileImage()));
+        if (user.getImage() != null) {
+            dto.setImage(imageMapper.toDtoFromEntity(user.getImage()));
         }
         return dto;
     }

@@ -28,8 +28,8 @@ public class ArtistMapper implements Mapper<Artist, ArtistDto> {
         dto.setSpotifyId(artist.getSpotifyId());
         dto.setName(artist.getName());
 
-        if (artist.getArtistImage() != null) {
-            dto.setImages(List.of(imageMapper.toDtoFromEntity(artist.getArtistImage())));
+        if (artist.getImage() != null) {
+            dto.setImages(List.of(imageMapper.toDtoFromEntity(artist.getImage())));
         }
         return dto;
     }
